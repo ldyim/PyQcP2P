@@ -24,6 +24,7 @@ if __name__ == "__main__":
     print(f"Starting node on {public_ip}:{PORT}")
     node = Node(HOST, PORT, FILE_PORT, public_ip)  # start the node
     node.start()
+    node.setfiledir("transfer_directory/")
     time.sleep(3)
     while True:
         action = input("\n\n\nConnect to Node: Enter C \n Send Message: Enter M \n Add File: Enter A \n Get File list: Enter F \n Get File: Enter G \n ")
