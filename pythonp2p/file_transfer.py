@@ -159,6 +159,7 @@ class FileDownloader(threading.Thread):
         self.invalid_chars = ["/", "\\", "|", "*", "<", ">", ":", "?", '"']
         self.conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.conn.settimeout(10.0)
+        print(f"Connecting to {ip}:{port}")
         try:
             self.conn.connect((ip, port))
         except (ConnectionRefusedError, ConnectionError, ConnectionResetError):
