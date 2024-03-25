@@ -26,7 +26,7 @@ if __name__ == "__main__":
     node.start()
     time.sleep(3)
     while True:
-        action = input("Connect to Node: Enter C \n Send Message: Enter M \n Add File: Enter A \n Get File list: Enter F \n Get File: Enter G \n")
+        action = input("\n\n\nConnect to Node: Enter C \n Send Message: Enter M \n Add File: Enter A \n Get File list: Enter F \n Get File: Enter G \n ")
         if action == "C":
             ip = input("Enter IP: ")
             node.connect_to(ip, 9999)
@@ -35,7 +35,8 @@ if __name__ == "__main__":
             node.send_message(message)
         elif action == "A":
             file = input("Enter File Path: ")
-            print(node.addfile(file))
+            hash = node.addfile(file)
+            node.send_message("addfile: " + file + " with hash: " + hash)
         elif action == "F":
             print(node.file_manager.files)
         elif action == "G":
