@@ -1,5 +1,6 @@
 
 import requests
+import time
 def get_public_ip(): 
     try: 
         response = requests.get('https://api.ipify.org') 
@@ -23,6 +24,7 @@ if __name__ == "__main__":
     print(f"Starting node on {public_ip}:{PORT}")
     node = Node(HOST, PORT, FILE_PORT, public_ip)  # start the node
     node.start()
+    time.sleep(3)
     while True:
         action = input("Connect to Node: Enter C \n Send Message: Enter M \n Add File: Enter A \n Get File list: Enter F \n Get File: Enter G \n")
         if action == "C":
@@ -35,8 +37,8 @@ if __name__ == "__main__":
             file = input("Enter File Path: ")
             print(node.addfile(file))
         elif action == "F":
-            print(node.getfilelist())
+            print(node.file_manager.files)
         elif action == "G":
-            print(node.getfilelist())
+            print(node.file_manager.files)
             file = input("Enter File Hash: ")
             print(node.requestFile(file))
