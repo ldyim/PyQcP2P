@@ -396,7 +396,7 @@ class Node(threading.Thread):
         if type == "peers":
             # peers handling
             for i in data:
-                if self.check_ip_to_connect(i):
+                if self.check_ip_to_connect(i) and i != self.private_ip:
                     self.peers.append(i)
 
             self.debug_print("Known Peers: " + str(self.peers))
