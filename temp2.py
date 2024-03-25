@@ -2,7 +2,7 @@ from pythonp2p import Node
 import time
 HOST = "0.0.0.0"
 PORT = 9999
-FILE_PORT = 81
+FILE_PORT = 65432
 ip = "18.224.20.85"
 if __name__ == "__main__":
     print("starting main")
