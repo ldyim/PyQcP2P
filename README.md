@@ -5,3 +5,4 @@ sudo apt upgrade && sudo apt update
 
 
 
+Add your port and IP address to the doc
