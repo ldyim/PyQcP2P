@@ -115,13 +115,14 @@ class NodeConnection(threading.Thread):
 
 
 class Node(threading.Thread):
-    def __init__(self, host="", port=65432, file_port=65433):
+    def __init__(self, host="", port=65432, file_port=65433, private_ip=""):
         super(Node, self).__init__()
 
         self.terminate_flag = threading.Event()
         self.pinger = Pinger(self)  # start pinger
         self.file_manager = FileManager()
         self.fileServer = fileServer(self, file_port)
+        self.private_ip = private_ip
         self.debug = True
 
         self.dead_time = (
@@ -407,10 +408,11 @@ class Node(threading.Thread):
 
         if type == "req":
             if self.file_manager.have_file(data):
+                # changed the response to include the ip of the node that has the file to be the private ip
                 self.message(
                     "resp",
                     data,
-                    {"ip": self.ip, "localip": self.local_ip},
+                    {"ip": self.private_ip, "localip": self.local_ip},
                 )
                 self.debug_print(
                     "recieved request for file: " + data + " and we have it."
