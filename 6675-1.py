@@ -3,6 +3,7 @@ HOST = "0.0.0.0"
 PORT = 9998
 FILE_PORT = 65433
 ip = "172.31.41.243"
+private_ip = ""
 if __name__ == "__main__":
     print("starting main")
     node = Node(HOST, PORT, FILE_PORT)  # start the node
