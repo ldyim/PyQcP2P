@@ -43,3 +43,5 @@ if __name__ == "__main__":
             print(node.file_manager.files)
             file = input("Enter File Hash: ")
             print(node.requestFile(file))
+        
+        time.sleep(3)
