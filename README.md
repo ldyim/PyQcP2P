@@ -42,3 +42,8 @@ Elastic IP binding to an EC2 instance provides a static, public IP address for s
 Process:
 EC2 console -> Network&Security -> Elastic IPs 
 -> Allocate Elastic IP address -> Select region -> Associate with your EC2 instance.
+
+## TLS Configuration Generator
+The script (generate_cert.sh) uses an IP(Elastic IP preferred) provided as an argument and generates a self-signed SSL certificate with this IP included as a Subject Alternative Name (SAN), useful for securing connections.
+ 
+It first validates the presence of an argument, then creates a configuration file (san.cnf) specifying certificate details and uses OpenSSL to generate the certificate and key based on this configuration.
