@@ -186,7 +186,7 @@ class Node(threading.Thread):
 
         for node in self.nodes_connected:
             if node.host == host:
-                print("[connect_to]: Already connected with this node.")
+                #print("[connect_to]: Already connected with this node.")
                 return True
 
         try:
