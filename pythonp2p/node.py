@@ -392,7 +392,7 @@ class Node(threading.Thread):
 
         type = dta["type"]
         data = dta["data"]
-
+        print(f"Msg received: {dta}")
         if type == "peers":
             # peers handling
             for i in data:
