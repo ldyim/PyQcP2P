@@ -204,7 +204,7 @@ class FileDownloader(threading.Thread):
             #    print("Recieved corrupt file, deleting....")
             self.finished = True
             print("File Downlod Finished")
-            self.file_manager.addfile((self.dirnamme + self.filename).encode("UTF-8"))
+            self.file_manager.addfile(self.dirnamme + self.filename)
             
 
         except Exception as e:
