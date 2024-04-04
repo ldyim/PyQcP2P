@@ -206,6 +206,7 @@ class FileDownloader(threading.Thread):
             self.file_manager.addfile(self.dirnamme + self.filename)
 
         except Exception as e:
+            print(e)
             print("File Downloader: Server errored or timed out.")
             # raise(e)
             self.stop()
