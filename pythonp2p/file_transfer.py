@@ -198,7 +198,7 @@ class FileDownloader(threading.Thread):
             with open(self.dirnamme + self.filename, "wb") as f:
                 f.write(data)
             if (
-                not self.file_manager.hash_data(self.dirnamme + self.filename)
+                not self.file_manager.hash_data((self.dirnamme + self.filename).encode("UTF-8"))
                 == self.fhash
             ):
                 print("Recieved corrupt file, deleting....")
