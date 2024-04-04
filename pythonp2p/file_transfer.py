@@ -42,6 +42,7 @@ class FileManager(object):
     def addfile(self, path):
         name = os.path.basename(path)
         h = self.hashFile(path)
+        print("Hash: " + h)
         self.files[h] = {"name": name, "path": path}
         return str(h)
 
@@ -203,7 +204,7 @@ class FileDownloader(threading.Thread):
                 print("Recieved corrupt file, deleting....")
             self.finished = True
             print("File Downlod Finished")
-            self.file_manager.addfile(self.dirnamme + self.filename)
+            self.file_manager.addfile((self.dirnamme + self.filename).encode("UTF-8"))
 
         except Exception as e:
             print(e)
