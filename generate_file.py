@@ -1,9 +1,8 @@
 import os
 import random
-import hashlib
-import random
 import string
 import sys
+
 def generate_random_word(length):
     return ''.join(random.choice(string.ascii_letters) for _ in range(length))
 
@@ -18,18 +17,15 @@ def generate_large_text_file(filename, size_in_mb):
             current_size += len(word) + 1  # Update current size including the space
 
     print(f'Generated file {filename} with size {os.path.getsize(filename)/1024/1024:.2f} MB')
-files = [f for f in os.listdir("files")]
-transfer_directory = [f for f in os.listdir("transfer_directory")]
 
-
-
-for f in range(len(files)):
-    os.remove(f"files/{files[f]}")
-for t in range(len(transfer_directory)):
-    os.remove(f"transfer_directory/{transfer_directory[t]}")
-
-#for i in range(5):
-#    num = random.randint(0, 100)
-num = input("Enter the node number:")
-generate_large_text_file(f"files/file{num}.txt", 100)
-
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python script.py <size_in_mb> [filename]")
+        sys.exit(1)
+    
+    size_in_mb = int(sys.argv[1])
+    filename = 'large_text_file.txt'  # Default filename
+    if len(sys.argv) > 2:
+        filename = sys.argv[2]
+    
+    generate_large_text_file(filename, size_in_mb)

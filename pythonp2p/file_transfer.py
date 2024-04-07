@@ -19,6 +19,10 @@ class FileManager(object):
 
     def hashFile(self, filepath):
         hasher = hashlib.md5()
+        buf = filepath.encode()
+        hasher.update(buf)
+        return hasher.hexdigest()
+        # testing just hashing the file name for efficiency
         try:
             with open(filepath, "rb") as afile:
                 buf = afile.read()

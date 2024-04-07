@@ -1,6 +1,7 @@
 
 import requests
 import time
+import hashlib
 def get_public_ip(): 
     try: 
         response = requests.get('https://api.ipify.org') 
@@ -25,9 +26,10 @@ if __name__ == "__main__":
     node = Node(HOST, PORT, FILE_PORT, public_ip)  # start the node
     node.start()
     node.setfiledir("transfer_directory/")
+    node_num = input("Enter node #: ")
     time.sleep(3)
     while True:
-        action = input("\n\n\nConnect to Node: Enter C \n Send Message: Enter M \n Add File: Enter A \n Get File list: Enter F \n Get File: Enter G \n ")
+        action = input("\n\n\nConnect to Node: Enter C \n Send Message: Enter M \n Add File: Enter A \n Get File list: Enter F \n Get File: Enter G \n Benchmark Download: Enter B \n")
         if action == "C":
             ip = input("Enter IP: ")
             node.connect_to(ip, 9999)
@@ -44,5 +46,17 @@ if __name__ == "__main__":
             print(node.file_manager.files)
             file = input("Enter File Hash: ")
             print(node.requestFile(file))
-        
+        elif action == "B":
+            number_of_nodes = input("Enter number of nodes: ")
+            start = time.time()
+            for i in range(1, number_of_nodes + 1):
+                if i == node_num:
+                    continue
+                file = f"files/file_{i}.txt"
+                hash = hashlib.md5(file.encode()).hexdigest()
+                print(f"Requesting file {file} with hash {hash}")
+                print(node.requestFile(hash))
+            end = time.time()
+            print(f"Time taken to download {number_of_nodes} files: {end - start} seconds")
+                
         time.sleep(3)
