@@ -31,5 +31,6 @@ for t in range(len(transfer_directory)):
 #for i in range(5):
 #    num = random.randint(0, 100)
 num = input("Enter the node number:")
-generate_large_text_file(f"files/file{num}.txt", 100)
+for i in range(5):
+    generate_large_text_file(f"files/file{num}_{i}.txt", 100)
 
