@@ -58,6 +58,6 @@ if __name__ == "__main__":
                     print(f"Requesting file {file} with hash {hash}")
                     print(node.requestFile(hash))
             end = time.time()
-            print(f"Time taken to download {number_of_nodes} files: {end - start} seconds")
+            print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
                 
         time.sleep(3)
