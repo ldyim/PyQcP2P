@@ -52,10 +52,11 @@ if __name__ == "__main__":
             for i in range(1, number_of_nodes + 1):
                 if i == node_num:
                     continue
-                file = f"files/file{i}.txt"
-                hash = hashlib.md5(file.encode()).hexdigest()
-                print(f"Requesting file {file} with hash {hash}")
-                print(node.requestFile(hash))
+                for j in range(5):
+                    file = f"files/file{i}_{j}.txt"
+                    hash = hashlib.md5(file.encode()).hexdigest()
+                    print(f"Requesting file {file} with hash {hash}")
+                    print(node.requestFile(hash))
             end = time.time()
             print(f"Time taken to download {number_of_nodes} files: {end - start} seconds")
                 
