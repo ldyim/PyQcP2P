@@ -2,6 +2,7 @@
 import requests
 import time
 import hashlib
+import os
 def get_public_ip(): 
     try: 
         response = requests.get('https://api.ipify.org') 
@@ -26,8 +27,15 @@ if __name__ == "__main__":
     node = Node(HOST, PORT, FILE_PORT, public_ip)  # start the node
     node.start()
     node.setfiledir("transfer_directory/")
-    node_num = input("Enter node #: ")
+    
+    print("adding all files in file directory to node \n")
+    for file in os.listdir("files"):
+        node.addfile(f"files/{file}")
+    
+    
+    
     time.sleep(3)
+    node_num = input("Enter node #: ")
     while True:
         action = input("\n\n\nConnect to Node: Enter C \n Send Message: Enter M \n Add File: Enter A \n Get File list: Enter F \n Get File: Enter G \n Benchmark Download: Enter B \n")
         if action == "C":
