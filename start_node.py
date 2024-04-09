@@ -51,7 +51,7 @@ if __name__ == "__main__":
         elif action == "F":
             print(node.file_manager.files)
         elif action == "G":
-            print(node.file_manager.files)
+            
             file = input("Enter File Hash: ")
             print(node.requestFile(file))
         elif action == "B":

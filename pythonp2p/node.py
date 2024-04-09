@@ -8,6 +8,8 @@ from .file_transfer import FileDownloader, fileServer, FileManager
 from . import portforwardlib
 from . import crypto_funcs as cf
 import ipaddress
+from .QUIC_FileTransfer import file_server
+from .QUIC_FileTransfer import file_client
 
 msg_del_time = 30
 PORT = 65432
@@ -122,6 +124,10 @@ class Node(threading.Thread):
         self.pinger = Pinger(self)  # start pinger
         self.file_manager = FileManager()
         self.fileServer = fileServer(self, file_port)
+        # something like this
+        self.quicServer = file_server.FileServerQuicProtocol(self)
+        
+        
         self.private_ip = private_ip
         self.debug = True
 
@@ -421,7 +427,20 @@ class Node(threading.Thread):
                 self.debug_print(
                     "recieved request for file: " + data + " but we do not have it."
                 )
-
+        if type == "requested_file":
+            self.debug_print("node: " + dta["snid"] + " has file " + data)
+            if dta["ip"] == "":
+                if dta["localip"] != "":
+                    ip = dta["localip"]
+            else:
+                ip = dta["ip"]
+            # node who is requesting the file is here
+            downloader = FileDownloader(
+                ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
+            )
+            downloader.start()
+                
+                
         if type == "resp":
             self.debug_print("node: " + dta["snid"] + " has file " + data)
             if data in self.requested:
@@ -431,7 +450,7 @@ class Node(threading.Thread):
                         ip = dta["localip"]
                 else:
                     ip = dta["ip"]
-
+                # node who is requesting the file is here
                 downloader = FileDownloader(
                     ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
                 )

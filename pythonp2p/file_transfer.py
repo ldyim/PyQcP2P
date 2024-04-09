@@ -207,7 +207,7 @@ class FileDownloader(threading.Thread):
             #):
             #    print("Recieved corrupt file, deleting....")
             self.finished = True
-            print("File Downlod Finished")
+            print("File Download Finished")
             self.file_manager.addfile(self.dirnamme + self.filename)
             
 
