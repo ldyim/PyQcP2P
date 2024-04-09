@@ -8,8 +8,8 @@ from .file_transfer import FileDownloader, fileServer, FileManager
 from . import portforwardlib
 from . import crypto_funcs as cf
 import ipaddress
-from .QUIC_FileTransfer import file_server
-from .QUIC_FileTransfer import file_client
+from .QUIC_FileTransfer.file_server import QuicServer
+from .QUIC_FileTransfer.file_client import QuicClient
 
 msg_del_time = 30
 PORT = 65432
@@ -124,9 +124,12 @@ class Node(threading.Thread):
         self.pinger = Pinger(self)  # start pinger
         self.file_manager = FileManager()
         self.fileServer = fileServer(self, file_port)
-        # something like this
-        self.quicServer = file_server.FileServerQuicProtocol(self)
         
+        # something like this
+        ######################################################
+        self.quicServer = QuicServer()
+        # self.quicServer.start()
+        # self.debug_print("servier start...")
         
         self.private_ip = private_ip
         self.debug = True
@@ -254,6 +257,10 @@ class Node(threading.Thread):
         )
 
     def run(self):
+        
+        self.quicServer.start()
+        # self.debug_print("servier start...")
+        
         self.pinger.start()
         self.fileServer.start()
         while (
@@ -449,6 +456,9 @@ class Node(threading.Thread):
             ################################################################    
             # steps extract file path from data 
             # start quic client
+            self.quicClient = QuicClient()
+            self.quicClient.start()
+            self.debug_print("Client start...")
             
                 
             
