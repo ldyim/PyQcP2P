@@ -436,12 +436,22 @@ class Node(threading.Thread):
             else:
                 ip = dta["ip"]
             # node who is requesting the file is here
-            downloader = FileDownloader(
-                ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
-            )
-            downloader.start()
+            #downloader = FileDownloader(
+            #    ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
+            #)
+            # data is the hash
+            temp_file_path = self.file_manager.files[data]["path"]
+            self.debug_print("File path: " + temp_file_path)
+            self.debug_print("ip: " + ip)
+            #downloader.start()
+            ################################################################
+            # INSERT QUIC CLIENT BELOW
+            ################################################################    
+            # steps extract file path from data 
+            # start quic client
+            
                 
-                
+            
         if type == "resp":
             self.debug_print("node: " + dta["snid"] + " has file " + data)
             if data in self.requested:
@@ -454,8 +464,10 @@ class Node(threading.Thread):
                 self.message(
                     "requested_file",
                     data,
-                    {"ip": ip, "localip": ip},
+                    {"ip": self.private_ip, "localip": self.local_ip},
                 )
+                # Above Requesting node is sending its ip to the node that has the file
+                
                 # node who is requesting the file is here
                 #downloader = FileDownloader(
                 #    ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
