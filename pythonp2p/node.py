@@ -429,6 +429,7 @@ class Node(threading.Thread):
                 )
         if type == "requested_file":
             self.debug_print("node: " + dta["snid"] + " has file " + data)
+            self.debug_print("got to new code \n\n\n\n")
             if dta["ip"] == "":
                 if dta["localip"] != "":
                     ip = dta["localip"]
@@ -450,11 +451,16 @@ class Node(threading.Thread):
                         ip = dta["localip"]
                 else:
                     ip = dta["ip"]
-                # node who is requesting the file is here
-                downloader = FileDownloader(
-                    ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
+                self.message(
+                    "requested_file",
+                    data,
+                    {"ip": ip, "localip": ip},
                 )
-                downloader.start()
+                # node who is requesting the file is here
+                #downloader = FileDownloader(
+                #    ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
+                #)
+                #downloader.start()
 
     def check_ip_to_connect(self, ip):
         print(ip)
