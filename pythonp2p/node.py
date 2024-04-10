@@ -317,7 +317,7 @@ class Node(threading.Thread):
 
     def message(self, type, data, overides={}, ex=[]):
         # time that the message was sent
-        self.debug_print("Sending message: " + data + "with type " + type)
+        self.debug_print("Sending message: " + str(data) + "with type " + str(type))
         dict = {"type": type, "data": data}
         if "time" not in dict:
             dict["time"] = str(time.time())
@@ -457,7 +457,7 @@ class Node(threading.Thread):
             ################################################################    
             # steps extract file path from data 
             # start quic client
-            self.quicClient = QuicClient()
+            self.quicClient = QuicClient(ip, temp_file_path)
             self.quicClient.start()
             self.debug_print("Client start...")
             
