@@ -427,6 +427,8 @@ class Node(threading.Thread):
             self.debug_print("node: " + dta["snid"] + " has file " + data)
             if data in self.requested:
                 print("node " + dta["snid"] + " has our file!")
+                whole_hash = dta["whole_hash"]
+                self.debug_print("whole hash: " + whole_hash)
                 if dta["ip"] == "":
                     if dta["localip"] != "":
                         ip = dta["localip"]
