@@ -45,7 +45,7 @@
 
 import asyncio
 import sys
-
+import ssl
 from aioquic.asyncio.protocol import QuicConnectionProtocol
 from aioquic.asyncio.client import connect
 from aioquic.quic.configuration import QuicConfiguration
@@ -69,7 +69,8 @@ class QuicClient:
         self.server_ip = server_ip
         self.file_path = file_path
         self.configuration = QuicConfiguration(is_client=True)
-        self.configuration.load_verify_locations('server.crt')
+        self.configuration.verify_mode = ssl.CERT_NONE
+        # self.configuration.load_verify_locations('server.crt')
 
     async def run(self):
         async with connect(
