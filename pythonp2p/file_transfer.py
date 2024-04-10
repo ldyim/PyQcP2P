@@ -16,6 +16,18 @@ class FileManager(object):
         hasher = hashlib.md5()
         hasher.update(data)
         return str(hasher.hexdigest())
+    
+    def hashFileWhole(self, filepath):
+        hasher = hashlib.md5()
+        try:
+            with open(filepath, "rb") as afile:
+                buf = afile.read()
+                while len(buf) > 0:
+                    hasher.update(buf)
+                    buf = afile.read()
+            return hasher.hexdigest()
+        except:
+            print("Couldn't find/hash file " + filepath)
 
     def hashFile(self, filepath):
         hasher = hashlib.md5()
@@ -46,8 +58,9 @@ class FileManager(object):
     def addfile(self, path):
         name = os.path.basename(path)
         h = self.hashFile(path)
-        print("Hash: " + h)
-        self.files[h] = {"name": name, "path": path}
+        whole_hash = self.hashFileWhole(path)
+        print("Hash: " + h + " Name: " + name + " Path: " + path + " Whole Hash: " + whole_hash)
+        self.files[h] = {"name": name, "path": path, "whole_hash": whole_hash}
         return str(h)
 
     def have_file(self, hash):

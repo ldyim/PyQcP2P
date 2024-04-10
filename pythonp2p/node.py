@@ -27,6 +27,7 @@ class NodeConnection(threading.Thread):
         self.last_ping = time.time()
         # Variable for parsing the incoming json messages
         self.buffer = ""
+        self.hashes = {}
 
         # The id of the connected node
         self.public_key = cf.load_key(id)
