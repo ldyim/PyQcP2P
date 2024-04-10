@@ -37,14 +37,14 @@
 # if __name__ == '__main__':
 #     asyncio.run(run_quic_server())
 
+import threading
 import asyncio
 from aioquic.asyncio.protocol import QuicConnectionProtocol
 from aioquic.asyncio.server import serve
 from aioquic.quic.configuration import QuicConfiguration
 from aioquic.quic.events import StreamDataReceived, HandshakeCompleted
-import threading
 
-class FileServerQuicProtocol(QuicConnectionProtocol, threading.Thread):
+class FileServerQuicProtocol(QuicConnectionProtocol):
     def quic_event_received(self, event):
         if isinstance(event, HandshakeCompleted):
             print("Handshake finished")
@@ -64,23 +64,29 @@ class FileServerQuicProtocol(QuicConnectionProtocol, threading.Thread):
 
 class QuicServer(threading.Thread):
     def __init__(self, host='0.0.0.0', port=4433):
+        super().__init__()
         self.host = host
         self.port = port
         self.configuration = QuicConfiguration(is_client=False)
         self.configuration.load_cert_chain('server.crt', 'server.key')
         
+    def run(self):
+        asyncio.run(self.start_async())
 
-    async def run(self):
+    async def start_async(self):
         await serve(
             self.host, self.port, configuration=self.configuration, create_protocol=FileServerQuicProtocol
         )
         print(f'QUIC Server running on {self.host}:{self.port}')
-        await asyncio.Event().wait()
+        await asyncio.Event().wait()     
     
-    def temp(self):
-        asyncio.run(self.run())
-    def start(self):
 
-        thread = threading.Thread(target = self.temp, args = ())
-        thread.start()
-        #thread.join()
+    # async def run(self):
+    #     await serve(
+    #         self.host, self.port, configuration=self.configuration, create_protocol=FileServerQuicProtocol
+    #     )
+    #     print(f'QUIC Server running on {self.host}:{self.port}')
+    #     await asyncio.Event().wait()
+
+    # def start(self):
+    #     asyncio.run(self.run())
