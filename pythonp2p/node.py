@@ -413,7 +413,7 @@ class Node(threading.Thread):
                 self.message(
                     "resp",
                     data,
-                    {"ip": self.private_ip, "localip": self.local_ip},
+                    {"ip": self.private_ip, "localip": self.local_ip, "whole_hash": self.file_manager.files[data]["whole_hash"]},
                 )
                 self.debug_print(
                     "recieved request for file: " + data + " and we have it."
