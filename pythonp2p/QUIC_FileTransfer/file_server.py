@@ -80,8 +80,7 @@ class QuicServer(threading.Thread):
     def temp(self):
         asyncio.run(self.run())
     def start(self):
-        print("adfasdfdsadsa")
+
         thread = threading.Thread(target = self.temp, args = ())
         thread.start()
         #thread.join()
-        print("here")

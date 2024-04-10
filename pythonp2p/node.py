@@ -317,6 +317,7 @@ class Node(threading.Thread):
 
     def message(self, type, data, overides={}, ex=[]):
         # time that the message was sent
+        self.debug_print("Sending message: " + data + "with type " + type)
         dict = {"type": type, "data": data}
         if "time" not in dict:
             dict["time"] = str(time.time())
