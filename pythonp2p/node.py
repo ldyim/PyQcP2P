@@ -468,7 +468,7 @@ class Node(threading.Thread):
             json.dump(self.peers, f)
 
     def requestFile(self, fhash):
-        if fhash not in self.requested and fhash not in self.file_manager.getallfiles():
+        if fhash not in self.requested: #and fhash not in self.file_manager.getallfiles():
             self.requested.append(fhash)
             self.message("req", fhash)
 
