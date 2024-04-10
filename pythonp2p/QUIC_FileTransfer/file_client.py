@@ -50,6 +50,8 @@ from aioquic.asyncio.protocol import QuicConnectionProtocol
 from aioquic.asyncio.client import connect
 from aioquic.quic.configuration import QuicConfiguration
 from aioquic.quic.events import StreamDataReceived
+import threading
+
 
 class FileClientQuicProtocol(QuicConnectionProtocol):
     def __init__(self, *args, **kwargs):

@@ -257,10 +257,10 @@ class Node(threading.Thread):
         )
 
     def run(self):
-        
+        self.debug_print("Node starting\n\n\n")
         self.quicServer.start()
         # self.debug_print("servier start...")
-        
+        self.debug_print("Quic started \n\n\n\n")
         self.pinger.start()
         self.fileServer.start()
         while (

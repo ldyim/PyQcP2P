@@ -42,8 +42,9 @@ from aioquic.asyncio.protocol import QuicConnectionProtocol
 from aioquic.asyncio.server import serve
 from aioquic.quic.configuration import QuicConfiguration
 from aioquic.quic.events import StreamDataReceived, HandshakeCompleted
+import threading
 
-class FileServerQuicProtocol(QuicConnectionProtocol):
+class FileServerQuicProtocol(QuicConnectionProtocol, threading.Thread):
     def quic_event_received(self, event):
         if isinstance(event, HandshakeCompleted):
             print("Handshake finished")
@@ -61,12 +62,13 @@ class FileServerQuicProtocol(QuicConnectionProtocol):
         self.transmit()
         print("Response sent to client.")
 
-class QuicServer:
+class QuicServer(threading.Thread):
     def __init__(self, host='0.0.0.0', port=4433):
         self.host = host
         self.port = port
         self.configuration = QuicConfiguration(is_client=False)
         self.configuration.load_cert_chain('server.crt', 'server.key')
+        
 
     async def run(self):
         await serve(
@@ -74,6 +76,12 @@ class QuicServer:
         )
         print(f'QUIC Server running on {self.host}:{self.port}')
         await asyncio.Event().wait()
-
-    def start(self):
+    
+    def temp(self):
         asyncio.run(self.run())
+    def start(self):
+        print("adfasdfdsadsa")
+        thread = threading.Thread(target = self.temp, args = ())
+        thread.start()
+        #thread.join()
+        print("here")
