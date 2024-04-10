@@ -204,6 +204,7 @@ class Node(threading.Thread):
             sock.connect((host, port))
 
             sock.send(self.id.encode("utf-8"))
+            
             connected_node_id = sock.recv(1024).decode("utf-8")
 
             if self.id == connected_node_id:
