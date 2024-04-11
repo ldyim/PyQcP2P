@@ -28,9 +28,13 @@ for f in range(len(files)):
 for t in range(len(transfer_directory)):
     os.remove(f"transfer_directory/{transfer_directory[t]}")
 
-#for i in range(5):
-#    num = random.randint(0, 100)
+for i in range(5):
+    num = random.randint(0, 100)
 num = input("Enter the node number:")
 for i in range(5):
     generate_large_text_file(f"files/file{num}_{i}.txt", 100)
 
+try:
+    os.mkdir("transfer_directory")
+except:
+    pass

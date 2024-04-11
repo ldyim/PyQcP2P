@@ -75,3 +75,19 @@ sudo tc qdisc del dev eth0 root netem
 
 
 ## Testing with packet loss
+TBD
+
+
+
+
+## Benchmarking
+In order to benchmark the network, first generate the files to benchmark with using reset_directories.py on each node. Make sure you enter the correct node # when prompted
+```shell
+python3 reset_directories.py
+```
+
+Start all nodes and connect them using 
+```shell
+python3 start_node.py
+```
+again, make sure you enter the correct node #. Connect to the other nodes using the C option. Once all nodes have been setup, use the B option to begin the benchmark.
