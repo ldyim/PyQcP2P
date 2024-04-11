@@ -11,6 +11,16 @@ cd PyQcP2P
 ```
 Add your port and IP address to the doc
 
+
+How to test the existing file transfer function
+```shell
+python3 start_node.py # run this in two nodes
+# choose the number and input the ip address you want to connect
+# choose add files in node 1 and input the file path
+# choose get files in node 2 and input the hash code.
+```
+
+
 # QUIC File transfer
 
 ```shell
