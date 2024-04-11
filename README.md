@@ -57,3 +57,21 @@ EC2 console -> Network&Security -> Elastic IPs
 The script (generate_cert.sh) uses an IP(Elastic IP preferred) provided as an argument and generates a self-signed SSL certificate with this IP included as a Subject Alternative Name (SAN), useful for securing connections.
  
 It first validates the presence of an argument, then creates a configuration file (san.cnf) specifying certificate details and uses OpenSSL to generate the certificate and key based on this configuration.
+
+
+## Testing with Latency
+
+By default, the file transfer port is 65433. In order to add latency perform the following commands with the desired 
+```shell
+sudo tc qdisc add dev eth0 root netem delay 97ms
+tc -s qdisc
+```
+
+To remove latency, do the following:
+
+```shell
+sudo tc qdisc del dev eth0 root netem
+```
+
+
+## Testing with packet loss
