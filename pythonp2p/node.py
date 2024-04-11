@@ -27,6 +27,7 @@ class NodeConnection(threading.Thread):
         self.last_ping = time.time()
         # Variable for parsing the incoming json messages
         self.buffer = ""
+        self.hashes = {}
 
         # The id of the connected node
         self.public_key = cf.load_key(id)
@@ -412,7 +413,7 @@ class Node(threading.Thread):
                 self.message(
                     "resp",
                     data,
-                    {"ip": self.private_ip, "localip": self.local_ip},
+                    {"ip": self.private_ip, "localip": self.local_ip, "whole_hash": self.file_manager.files[data]["whole_hash"]},
                 )
                 self.debug_print(
                     "recieved request for file: " + data + " and we have it."
@@ -426,6 +427,8 @@ class Node(threading.Thread):
             self.debug_print("node: " + dta["snid"] + " has file " + data)
             if data in self.requested:
                 print("node " + dta["snid"] + " has our file!")
+                whole_hash = dta["whole_hash"]
+                self.debug_print("whole hash: " + whole_hash)
                 if dta["ip"] == "":
                     if dta["localip"] != "":
                         ip = dta["localip"]
@@ -465,7 +468,7 @@ class Node(threading.Thread):
             json.dump(self.peers, f)
 
     def requestFile(self, fhash):
-        if fhash not in self.requested and fhash not in self.file_manager.getallfiles():
+        if fhash not in self.requested: #and fhash not in self.file_manager.getallfiles():
             self.requested.append(fhash)
             self.message("req", fhash)
 
