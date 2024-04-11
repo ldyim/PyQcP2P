@@ -35,3 +35,7 @@ for i in range(5):
     print(f"Generating file{num}_{i}.txt")
     generate_large_text_file(f"files/file{num}_{i}.txt", 100)
 
+try:
+    os.mkdir("transfer_directory")
+except:
+    pass
