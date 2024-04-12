@@ -174,7 +174,7 @@ class Node(threading.Thread):
                 i.send(json.dumps(message))
 
     def connect_to(self, host, port=PORT):
-
+        port = 9999
         if not self.check_ip_to_connect(host):
             #print("adsf")
             self.debug_print("connect_to: Cannot connect!!")
