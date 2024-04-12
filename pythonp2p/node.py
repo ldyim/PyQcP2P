@@ -126,7 +126,7 @@ class Node(threading.Thread):
         self.debug = True
 
         self.dead_time = (
-            45  # time to disconect from node if not pinged, nodes ping after 20s
+            10000  # time to disconect from node if not pinged, nodes ping after 20s
         )
 
         self.host = host
@@ -196,7 +196,7 @@ class Node(threading.Thread):
 
             sock.send(self.id.encode("utf-8"))
             connected_node_id = sock.recv(1024).decode("utf-8")
-
+            
             if self.id == connected_node_id:
                 self.debug_print("Possible own ip: " + host)
                 if ipaddress.ip_address(host).is_private:
@@ -400,7 +400,7 @@ class Node(threading.Thread):
                     self.peers.append(i)
 
             self.debug_print("Known Peers: " + str(self.peers))
-            self.ConnectToNodes()  # cpnnect to new nodes
+            # self.ConnectToNodes()  # should prevent nodes connecting to peers advertised 
             return True
 
         if type == "msg":
