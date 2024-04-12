@@ -58,15 +58,16 @@ if __name__ == "__main__":
             number_of_nodes = int(input("Enter number of nodes: "))
             start = time.time()
             for i in range(1, number_of_nodes + 1):
-                if i == node_num:
+                if i == int(node_num):
                     continue
                 for j in range(5):
                     file = f"files/file{i}_{j}.txt"
                     hash = hashlib.md5(file.encode()).hexdigest()
+                    print("\n\n\n")
                     print(f"Requesting file {file} with hash {hash}")
                     print(node.requestFile(hash))
             end = time.time()
             print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
                 
-        time.sleep(10)
-        print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {node.quicServer.time - start} seconds")
+        
+        #print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {node.quicServer.time - start} seconds")

@@ -58,7 +58,8 @@ class FileServerQuicProtocol(QuicConnectionProtocol):
                     
 
     def send_response(self):
-        response = b'File received successfully.\r\n'
+        response = ('File received successfully.\r\n' + str(time.time())).encode()
+        print(response)
         self._quic.send_stream_data(0, response, end_stream=True)
         self.transmit()
         print("Response sent to client.")

@@ -20,4 +20,4 @@ subjectAltName = @alt_names
 
 [alt_names]
 DNS.1 = example.com
-IP.1 = 0.0.0.0
+IP.1 = 18.117.177.21
