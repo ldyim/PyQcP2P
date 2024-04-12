@@ -33,7 +33,7 @@ except:
 files = [f for f in os.listdir("files")]
 transfer_directory = [f for f in os.listdir("transfer_directory")]
 
-
+file_size = input("Enter File Size in MBytes:")
 
 for f in range(len(files)):
     os.remove(f"files/{files[f]}")
@@ -44,5 +44,5 @@ for i in range(5):
     num = random.randint(0, 100)
 num = input("Enter the node number:")
 for i in range(5):
-    generate_large_text_file(f"files/file{num}_{i}.txt", 100)
+    generate_large_text_file(f"files/file{num}_{i}.txt", file_size)
 
