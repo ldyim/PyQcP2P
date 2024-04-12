@@ -43,18 +43,19 @@ from aioquic.asyncio.protocol import QuicConnectionProtocol
 from aioquic.asyncio.server import serve
 from aioquic.quic.configuration import QuicConfiguration
 from aioquic.quic.events import StreamDataReceived, HandshakeCompleted
-
+import time
 class FileServerQuicProtocol(QuicConnectionProtocol):
     def quic_event_received(self, event):
         if isinstance(event, HandshakeCompleted):
             print("Handshake finished")
         elif isinstance(event, StreamDataReceived):
-            print(f"Received data, buffering and write to file")
+            # print(f"Received data, buffering and write to file")
             with open('received_file.txt', 'wb') as file:
                 file.write(event.data)
                 if event.data.endswith(b'\r\n'):
                     print("File received successfully")
                     self.send_response()
+                    
 
     def send_response(self):
         response = b'File received successfully.\r\n'
@@ -69,6 +70,7 @@ class QuicServer(threading.Thread):
         self.port = port
         self.configuration = QuicConfiguration(is_client=False)
         self.configuration.load_cert_chain('server.crt', 'server.key')
+        self.time = 0
         
     def run(self):
         asyncio.run(self.start_async())

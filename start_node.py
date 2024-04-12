@@ -68,4 +68,5 @@ if __name__ == "__main__":
             end = time.time()
             print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
                 
-        time.sleep(3)
+        time.sleep(10)
+        print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {node.quicServer.time - start} seconds")
