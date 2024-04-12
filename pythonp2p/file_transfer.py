@@ -11,6 +11,8 @@ class FileManager(object):
     def __init__(self):
         self.files = {}
         self.download_path = ""
+        self.downloaded = {}
+        self.downloader = None
 
     def hash_data(self, data):
         hasher = hashlib.md5()
@@ -177,6 +179,7 @@ class FileDownloader(threading.Thread):
         self.invalid_chars = ["/", "\\", "|", "*", "<", ">", ":", "?", '"']
         self.conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.conn.settimeout(10.0)
+        self.finished = False
         print(f"Connecting to {ip}:{port}")
         try:
             self.conn.connect((ip, port))
@@ -222,7 +225,7 @@ class FileDownloader(threading.Thread):
             self.finished = True
             print("File Downlod Finished")
             self.file_manager.addfile(self.dirnamme + self.filename)
-            
+                       
 
         except Exception as e:
             print(e)

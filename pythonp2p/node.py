@@ -18,7 +18,6 @@ class NodeConnection(threading.Thread):
     def __init__(self, main_node, sock, id, host, port):
 
         super(NodeConnection, self).__init__()
-
         self.host = host
         self.port = port
         self.main_node = main_node
@@ -408,6 +407,7 @@ class Node(threading.Thread):
             self.on_message(data, dta["snid"], bool(dta["rnid"]))
 
         if type == "req":
+            self.debug_print(f"sending req message with data {data}")
             if self.file_manager.have_file(data):
                 # changed the response to include the ip of the node that has the file to be the private ip
                 self.message(
@@ -438,7 +438,9 @@ class Node(threading.Thread):
                 downloader = FileDownloader(
                     ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
                 )
+                self.file_manager.downloader = downloader
                 downloader.start()
+                
 
     def check_ip_to_connect(self, ip):
         print(ip)
