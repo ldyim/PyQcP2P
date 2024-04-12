@@ -10,7 +10,7 @@ from . import crypto_funcs as cf
 import ipaddress
 from .QUIC_FileTransfer.file_server import QuicServer
 from .QUIC_FileTransfer.file_client import QuicClient
-
+import os 
 msg_del_time = 30
 PORT = 65432
 FILE_PORT = 65433
@@ -183,8 +183,8 @@ class Node(threading.Thread):
             else:
                 i.send(json.dumps(message))
 
-    def connect_to(self, host, port=PORT):
-
+    def connect_to(self, host, port=9999):
+        port = 9999
         if not self.check_ip_to_connect(host):
             #print("adsf")
             self.debug_print("connect_to: Cannot connect!!")
@@ -461,6 +461,19 @@ class Node(threading.Thread):
             self.quicClient = QuicClient(ip, temp_file_path)
             self.quicClient.start()
             self.debug_print("Client start...")
+            ################################################################
+            
+            
+            # while loop to check if the file is downloaded by size 
+            # if downloaded then break the loop
+            
+            # while True:
+            #     if self.file_manager.files[data]["size"] == os.path.getsize("received_file.txt"):
+            #         break
+            
+            # # if the file is downloaded then move it to the transfer directory
+            
+            # os.rename("received_file.txt", f"transfer_directory/{}.txt")
             
                 
             
