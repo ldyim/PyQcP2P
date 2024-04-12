@@ -21,8 +21,8 @@ def generate_large_text_file(filename, size_in_mb):
 
 try:
     os.mkdir("files")
-except e:
-    print(e)
+except:
+    
     pass
     
 try:
@@ -33,7 +33,7 @@ except:
 files = [f for f in os.listdir("files")]
 transfer_directory = [f for f in os.listdir("transfer_directory")]
 
-file_size = input("Enter File Size in MBytes:")
+file_size = int(input("Enter File Size in MBytes:"))
 
 for f in range(len(files)):
     os.remove(f"files/{files[f]}")
