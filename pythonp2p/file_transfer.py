@@ -98,10 +98,10 @@ class fileClientThread(threading.Thread):
                 data = f.read()
             serialized_data = pickle.dumps(data)
             self.sock.sendall(struct.pack(">I", len(serialized_data)))
-            time.sleep(0.1)
+            time.sleep(0.3)
             print("File: " + file)
             self.sock.send(file.encode("utf-8"))
-            time.sleep(0.1)
+            time.sleep(0.3)
             self.sock.sendall(serialized_data)
 
     def stop(self):
