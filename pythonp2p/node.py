@@ -425,6 +425,8 @@ class Node(threading.Thread):
 
         if type == "resp":
             self.debug_print("node: " + dta["snid"] + " has file " + data)
+            print(data)
+            print(self.requested)
             if data in self.requested:
                 print("node " + dta["snid"] + " has our file!")
                 whole_hash = dta["whole_hash"]
@@ -434,12 +436,16 @@ class Node(threading.Thread):
                         ip = dta["localip"]
                 else:
                     ip = dta["ip"]
-
+                success = False
+                
+                
                 downloader = FileDownloader(
                     ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
                 )
                 self.file_manager.downloader = downloader
                 downloader.start()
+                print("started downloader")
+               
                 
 
     def check_ip_to_connect(self, ip):
@@ -470,9 +476,9 @@ class Node(threading.Thread):
             json.dump(self.peers, f)
 
     def requestFile(self, fhash):
-        if fhash not in self.requested: #and fhash not in self.file_manager.getallfiles():
-            self.requested.append(fhash)
-            self.message("req", fhash)
+        # if fhash not in self.requested: #and fhash not in self.file_manager.getallfiles():
+        self.requested.append(fhash)
+        self.message("req", fhash)
 
     def addfile(self, path):
         s = self.file_manager.addfile(path)

@@ -60,8 +60,9 @@ if __name__ == "__main__":
             for i in range(1, number_of_nodes + 1):
                 if i == int(node_num):
                     continue
-                for j in range(5):
-                    
+                j = 0
+                while j < 5:
+               
                     isComplete = None
                     if node.file_manager.downloader:
                         node.file_manager.downloader.finished = False
@@ -71,9 +72,16 @@ if __name__ == "__main__":
                     isComplete = (node.requestFile(hash))
                     while not node.file_manager.downloader:
                         continue
-                    while isComplete == None or isComplete == False:
+                    curr = time.time()
+                    while (isComplete == None or isComplete == False) and time.time() - curr < 15:
                         isComplete = node.file_manager.downloader.finished
                         continue
+                    if time.time() - curr > 15:
+                        print("timeout occurred" + "retry file: " + file + " \n\n\n") 
+                        j -= 1
+                        node.file_manager.downloader.stop()
+                    j += 1
+
             end = time.time()
             print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
                 
