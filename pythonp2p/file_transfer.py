@@ -191,14 +191,23 @@ class FileDownloader(threading.Thread):
         self.terminate_flag.set()
 
     def run(self):
+        
         try:
             self.conn.send(self.fhash.encode("utf-8"))
+            self.data_size = 0
+            
             self.data_size = struct.unpack(">I", self.conn.recv(9))[0]
+            
             time.sleep(0.1)
             print("file size: " + str(self.data_size))
+            self.filename = ""
+            temp = self.conn.recv(256)
+            print(temp)
             self.filename = str(
-                self.conn.recv(256).decode("utf-8")
+                temp.decode("utf-8")
             )  # recieve file name
+        
+                    
             print("file name:" + str(self.filename))
             for i in self.invalid_chars:
                 if i in self.filename:
@@ -209,8 +218,10 @@ class FileDownloader(threading.Thread):
             received_payload = b""
             reamining_payload_size = self.data_size
             while reamining_payload_size != 0 and not self.terminate_flag.is_set():
+                
                 received_payload += self.conn.recv(reamining_payload_size)
                 reamining_payload_size = self.data_size - len(received_payload)
+    
             data = pickle.loads(received_payload)
 
             self.conn.close()
@@ -225,10 +236,14 @@ class FileDownloader(threading.Thread):
             self.finished = True
             print("File Downlod Finished")
             # self.file_manager.addfile(self.dirnamme + self.filename)
-                       
+            return
 
         except Exception as e:
             print(e)
-            print("File Downloader: Server errored or timed out.")
-            # raise(e)
+            print("File Downloader: Server errored or timed out. retrying")
+            # self.conn.close()
+            #time.sleep(3)
+            self.finished = None
             self.stop()
+            # raise(e)
+        
