@@ -136,7 +136,7 @@ class Node(threading.Thread):
         self.debug = True
 
         self.dead_time = (
-            45  # time to disconect from node if not pinged, nodes ping after 20s
+            450000  # time to disconect from node if not pinged, nodes ping after 20s
         )
 
         self.host = host
@@ -307,7 +307,7 @@ class Node(threading.Thread):
 
     def ConnectToNodes(self):
         for i in self.peers:
-            if not self.connect_to(i, PORT):
+            if not self.connect_to(i, 9999):
                 del self.peers[self.peers.index(i)]  # delete wrong / own ip from peers
 
     def send_message(self, data, reciever=None):
@@ -568,7 +568,7 @@ class Pinger(threading.Thread):
         self.terminate_flag = threading.Event()
         super(Pinger, self).__init__()  # CAll Thread.__init__()
         self.parent = parent
-        self.dead_time = 30  # time to disconect from node if not pinged
+        self.dead_time = 3000000  # time to disconect from node if not pinged
 
     def stop(self):
         self.terminate_flag.set()
