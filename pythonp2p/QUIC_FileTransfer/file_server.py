@@ -44,6 +44,7 @@ from aioquic.asyncio.server import serve
 from aioquic.quic.configuration import QuicConfiguration
 from aioquic.quic.events import StreamDataReceived, HandshakeCompleted
 import time
+import uuid
 class FileServerQuicProtocol(QuicConnectionProtocol):
     def quic_event_received(self, event):
         if isinstance(event, HandshakeCompleted):
