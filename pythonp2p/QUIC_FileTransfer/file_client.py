@@ -70,25 +70,32 @@ class QuicClient:
         self.file_path = file_path
         self.configuration = QuicConfiguration(is_client=True)
         self.configuration.verify_mode = ssl.CERT_NONE
-        self.stream_id = int(str(node_num) + str(file_num))
+        self.stream_id = int(str(node_num) + str(file_num*2))
         # self.configuration.load_verify_locations('server.crt')
 
     async def run(self):
         async with connect(
             self.server_ip, 4433, configuration=self.configuration, create_protocol=FileClientQuicProtocol
         ) as protocol:
-            print(f'Connect to QUIC Server with stream id: {self.stream_id}')
-            with open(self.file_path, 'rb') as file:
-                data = file.read()
+            try: 
+                print(f'Connect to QUIC Server with stream id: {self.stream_id}')
+                with open(self.file_path, 'rb') as file:
+                    data = file.read()
 
-            
-            protocol._quic.send_stream_data(int(self.stream_id), data)
-            protocol._quic.send_stream_data(int(self.stream_id), b'\r\n')
-            
-            #protocol._quic.send_stream_data(0, data)
-            #protocol._quic.send_stream_data(0, b'\r\n')
-            protocol.transmit()
-            await protocol.ready_event.wait() 
-
-    def start(self):
+                
+                protocol._quic.send_stream_data(int(self.stream_id), data)
+                protocol._quic.send_stream_data(int(self.stream_id), b'\r\n')
+                
+                #protocol._quic.send_stream_data(0, data)
+                #protocol._quic.send_stream_data(0, b'\r\n')
+                protocol.transmit()
+                await protocol.ready_event.wait() 
+            except:
+                print(f"error with stream id: {self.stream_id}")
+    
+    def temp(self):
         asyncio.run(self.run())
+    def start(self):
+        thread = threading.Thread(target = self.temp, args = ())
+        thread.start()
+        #thread.join()

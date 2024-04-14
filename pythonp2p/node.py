@@ -468,8 +468,8 @@ class Node(threading.Thread):
             ################################################################    
             # steps extract file path from data 
             # start quic client
-            self.quicClient = QuicClient(ip, temp_file_path, int(self.node_num), int(temp_file_path[-5]))
-            self.quicClient.start()
+            client = QuicClient(ip, temp_file_path, int(self.node_num), int(temp_file_path[-5]))
+            client.start()
             self.debug_print("Client start...")
             ################################################################
             
