@@ -51,7 +51,7 @@ class FileServerQuicProtocol(QuicConnectionProtocol):
             print("Handshake finished")
         elif isinstance(event, StreamDataReceived):
             print(f"Received data, buffering and write to file")
-            filename = uuid.uuid4()
+            filename = str(uuid.uuid4())
             filename += '.txt'
             filepath = "transfer_directory/"
             with open(filepath + filename, 'wb') as file:
