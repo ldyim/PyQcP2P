@@ -18,24 +18,30 @@ def generate_large_text_file(filename, size_in_mb):
             current_size += len(word) + 1  # Update current size including the space
 
     print(f'Generated file {filename} with size {os.path.getsize(filename)/1024/1024:.2f} MB')
+
+try:
+    os.mkdir("files")
+except:
+    
+    pass
+    
+try:
+    os.mkdir("transfer_directory")
+except:
+    pass
+
 files = [f for f in os.listdir("files")]
 transfer_directory = [f for f in os.listdir("transfer_directory")]
 
-
+file_size = int(input("Enter File Size in MBytes:"))
 
 for f in range(len(files)):
     os.remove(f"files/{files[f]}")
 for t in range(len(transfer_directory)):
     os.remove(f"transfer_directory/{transfer_directory[t]}")
 
-#for i in range(5):
-#    num = random.randint(0, 100)
+for i in range(5):
+    num = random.randint(0, 100)
 num = input("Enter the node number:")
 for i in range(5):
-    print(f"Generating file{num}_{i}.txt")
-    generate_large_text_file(f"files/file{num}_{i}.txt", 100)
-
-try:
-    os.mkdir("transfer_directory")
-except:
-    pass
+    generate_large_text_file(f"files/file{num}_{i}.txt", file_size)
