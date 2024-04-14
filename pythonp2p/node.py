@@ -450,7 +450,13 @@ class Node(threading.Thread):
             #    ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
             #)
             # data is the hash
-            temp_file_path = self.file_manager.files[data]["path"]
+            
+            try: 
+                temp_file_path = self.file_manager.files[data]["path"]
+            except:
+                print(f"key error, with key {data}")
+                print(f"we have: {self.file_manager.files}")
+                return 
             self.debug_print("File path: " + temp_file_path)
             self.debug_print("ip: " + ip)
             #downloader.start()
