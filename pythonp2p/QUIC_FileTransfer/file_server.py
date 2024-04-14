@@ -45,26 +45,39 @@ from aioquic.quic.configuration import QuicConfiguration
 from aioquic.quic.events import StreamDataReceived, HandshakeCompleted
 import time
 import uuid
+import os
+
 class FileServerQuicProtocol(QuicConnectionProtocol):
     def quic_event_received(self, event):
-        if isinstance(event, HandshakeCompleted):
-            print("Handshake finished")
-        elif isinstance(event, StreamDataReceived):
-            print(f"Received data, buffering and write to file")
-            filename = str(uuid.uuid4())
-            filename += '.txt'
-            filepath = "transfer_directory/"
-            with open(filepath + filename, 'wb') as file:
-                file.write(event.data)
-                if event.data.endswith(b'\r\n'):
-                    print("File received successfully")
-                    self.send_response()
-                    
+        #print("receive event:" + str(event))
+        #print("\n\n\n")
+        try:
+            
+            if isinstance(event, HandshakeCompleted):
+                print("Handshake finished")
+            elif isinstance(event, StreamDataReceived):
+                stream_id = event.stream_id
+                #print(f"Received data, buffering and write to file")
+                node_index = int(stream_id / 10)
+                file_index = stream_id % 10
+                filename = f"file{node_index}-{file_index}.txt"
+                filepath = "transfer_directory/"
+                if not os.path.exists(filepath):
+                    os.makedirs(filepath)
+                with open(filepath + filename, 'wb') as file:
+                    file.write(event.data)
+                    if event.data.endswith(b'\r\n'):
+                        print("File received successfully")
+                        self.send_response(stream_id)
+        except Exception as e:
+            print(
+                "File transfer error (" + str(e) + ")"
+            )
 
-    def send_response(self):
+    def send_response(self, stream_id):
         response = b'File received successfully.\r\n'
-        self._quic.send_stream_data(0, response, end_stream=True)
-        self.transmit()
+        #self._quic.send_stream_data(stream_id, response, end_stream=True)
+        #self.transmit()
         print("Response sent to client.")
 
 class QuicServer(threading.Thread):
