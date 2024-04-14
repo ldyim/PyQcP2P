@@ -64,7 +64,7 @@ class FileServerQuicProtocol(QuicConnectionProtocol):
                 filepath = "transfer_directory/"
                 if not os.path.exists(filepath):
                     os.makedirs(filepath)
-                with open(filepath + filename, 'wb') as file:
+                with open(filepath + filename, 'ab') as file:
                     file.write(event.data)
                     if event.data.endswith(b'\r\n'):
                         print("File received successfully")
