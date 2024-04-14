@@ -48,13 +48,19 @@ import uuid
 import os
 
 class FileServerQuicProtocol(QuicConnectionProtocol):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.buffer = {}
+        os.makedirs("transfer_directory/", exist_ok=True)
+
     def quic_event_received(self, event):
         #print("receive event:" + str(event))
         #print("\n\n\n")
         try:
             
             if isinstance(event, HandshakeCompleted):
-                print("Handshake finished")
+                #print("Handshake finished")
+                pass
             elif isinstance(event, StreamDataReceived):
                 stream_id = event.stream_id
                 #print(f"Received data, buffering and write to file")
@@ -62,13 +68,34 @@ class FileServerQuicProtocol(QuicConnectionProtocol):
                 file_index = stream_id % 10
                 filename = f"file{node_index}-{file_index}.txt"
                 filepath = "transfer_directory/"
-                if not os.path.exists(filepath):
-                    os.makedirs(filepath)
-                with open(filepath + filename, 'ab') as file:
-                    file.write(event.data)
-                    if event.data.endswith(b'\r\n'):
-                        print("File received successfully")
-                        self.send_response(stream_id)
+                # os.makedirs(filepath, exist_ok=True)
+                # if not os.path.exists(filepath):
+                #     os.makedirs(filepath)
+
+                # with open(filepath + filename, 'ab') as file:
+                #     file.write(event.data)
+                #     if event.data.endswith(b'\r\n'):
+                #         print("File received successfully")
+                #         self.send_response(stream_id)
+                                # Ensure directory exists
+                
+                
+                # Buffer incoming data
+                if stream_id not in self.buffer:
+                    self.buffer[stream_id] = bytearray()
+                self.buffer[stream_id].extend(event.data)
+                # print(self.buffer)
+                # Check if the data ends with the closing sequence
+                if event.data.endswith(b'\r\n'):
+                    # Writing buffered data to file
+                    with open(os.path.join(filepath, filename), 'ab') as file:
+                        file.write(self.buffer[stream_id])
+                    print("File received successfully")
+                    self.send_response(stream_id)
+                    
+                    # Clear buffer for this stream
+                    del self.buffer[stream_id]
+
         except Exception as e:
             print(
                 "File transfer error (" + str(e) + ")"
@@ -79,6 +106,7 @@ class FileServerQuicProtocol(QuicConnectionProtocol):
         #self._quic.send_stream_data(stream_id, response, end_stream=True)
         #self.transmit()
         print("Response sent to client.")
+        print(time.time())
 
 class QuicServer(threading.Thread):
     def __init__(self, host='0.0.0.0', port=4433):
