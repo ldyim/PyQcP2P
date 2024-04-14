@@ -49,8 +49,11 @@ class FileServerQuicProtocol(QuicConnectionProtocol):
         if isinstance(event, HandshakeCompleted):
             print("Handshake finished")
         elif isinstance(event, StreamDataReceived):
-            # print(f"Received data, buffering and write to file")
-            with open('received_file.txt', 'wb') as file:
+            print(f"Received data, buffering and write to file")
+            filename = uuid.uuid4()
+            filename += '.txt'
+            filepath = "transfer_directory/"
+            with open(filepath + filename, 'wb') as file:
                 file.write(event.data)
                 if event.data.endswith(b'\r\n'):
                     print("File received successfully")
