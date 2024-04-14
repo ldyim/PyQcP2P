@@ -120,7 +120,7 @@ class NodeConnection(threading.Thread):
 class Node(threading.Thread):
     def __init__(self, host="", port=65432, file_port=65433, private_ip=""):
         super(Node, self).__init__()
-
+        self.node_num = 0
         self.terminate_flag = threading.Event()
         self.pinger = Pinger(self)  # start pinger
         self.file_manager = FileManager()
@@ -171,7 +171,10 @@ class Node(threading.Thread):
         self.sock.bind((self.host, self.port))
         self.sock.settimeout(10.0)
         self.sock.listen(1)
-
+    
+    def set_node_num(self, num):
+        self.node_num = num
+    
     def debug_print(self, msg):
         if self.debug:
             print("[debug] " + str(msg))
@@ -465,7 +468,7 @@ class Node(threading.Thread):
             ################################################################    
             # steps extract file path from data 
             # start quic client
-            self.quicClient = QuicClient(ip, temp_file_path)
+            self.quicClient = QuicClient(ip, temp_file_path, int(self.node_num), int(temp_file_path[-5]))
             self.quicClient.start()
             self.debug_print("Client start...")
             ################################################################

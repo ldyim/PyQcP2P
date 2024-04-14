@@ -56,6 +56,7 @@ if __name__ == "__main__":
     
     time.sleep(3)
     node_num = input("Enter node #: ")
+    node.set_node_num(int(node_num))
     while True:
         action = input("\n\n\nConnect to Node: Enter C \n Send Message: Enter M \n Add File: Enter A \n Get File list: Enter F \n Get File: Enter G \n Benchmark Download: Enter B \n")
         if action == "C":

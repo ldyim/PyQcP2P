@@ -65,22 +65,28 @@ class FileClientQuicProtocol(QuicConnectionProtocol):
                 self.ready_event.set()
 
 class QuicClient:
-    def __init__(self, server_ip, file_path):
+    def __init__(self, server_ip, file_path, node_num, file_num):
         self.server_ip = server_ip
         self.file_path = file_path
         self.configuration = QuicConfiguration(is_client=True)
         self.configuration.verify_mode = ssl.CERT_NONE
+        self.stream_id = int(str(node_num) + str(file_num))
         # self.configuration.load_verify_locations('server.crt')
 
     async def run(self):
         async with connect(
             self.server_ip, 4433, configuration=self.configuration, create_protocol=FileClientQuicProtocol
         ) as protocol:
-            print('Connect to QUIC Server')
+            print(f'Connect to QUIC Server with stream id: {self.stream_id}')
             with open(self.file_path, 'rb') as file:
                 data = file.read()
-            protocol._quic.send_stream_data(0, data)
-            protocol._quic.send_stream_data(0, b'\r\n')
+
+            
+            protocol._quic.send_stream_data(int(self.stream_id), data)
+            protocol._quic.send_stream_data(int(self.stream_id), b'\r\n')
+            
+            #protocol._quic.send_stream_data(0, data)
+            #protocol._quic.send_stream_data(0, b'\r\n')
             protocol.transmit()
             await protocol.ready_event.wait() 
 
