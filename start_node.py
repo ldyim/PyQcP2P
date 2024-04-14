@@ -16,6 +16,24 @@ def get_public_ip():
 public_ip = get_public_ip() 
 
 
+def count_large_files(directory):
+    # Check if the directory exists
+    if not os.path.isdir(directory):
+        print(f"The directory '{directory}' does not exist.")
+        return None
+    
+    # Initialize a counter for large files
+    large_file_count = 0
+    
+    # Iterate over all files in the directory
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        
+        # Check if the file is a regular file and is at least 0.9 MB in size
+        if os.path.isfile(file_path) and os.path.getsize(file_path) >= 0.98 * 1024 * 1024:  # 0.9 MB in bytes
+            large_file_count += 1
+    
+    return large_file_count
 
 def count_files(directory):
     # Check if the directory exists
@@ -89,7 +107,7 @@ if __name__ == "__main__":
             
             # print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
             while True:
-                if count_files == 35:
+                if count_large_files(directory_path) == 35:
                     end = time.time()
                     print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
                     break
