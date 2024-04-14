@@ -3,6 +3,7 @@ import requests
 import time
 import hashlib
 import os
+
 def get_public_ip(): 
     try: 
         response = requests.get('https://api.ipify.org') 
@@ -14,6 +15,25 @@ def get_public_ip():
         return f"Error: {e}" 
 public_ip = get_public_ip() 
 
+
+
+def count_files(directory):
+    # Check if the directory exists
+    if not os.path.isdir(directory):
+        print(f"The directory '{directory}' does not exist.")
+        return
+    
+    # List all files in the directory
+    files = os.listdir(directory)
+    
+    # Count the number of files
+    num_files = len(files)
+    
+    # Print the result
+    return num_files
+
+# Replace 'transfer_directory' with the path to your directory
+directory_path = 'transfer_directory'
 
 
 
@@ -65,8 +85,12 @@ if __name__ == "__main__":
                     hash = hashlib.md5(file.encode()).hexdigest()
                     print(f"Requesting file {file} with hash {hash}")
                     print(node.requestFile(hash))
-            end = time.time()
-            print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
-                
-        time.sleep(10)
-        print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {node.quicServer.time - start} seconds")
+            
+            # print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
+            while True:
+                if count_files == 35:
+                    end = time.time()
+                    print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
+                    break
+                  
+            
