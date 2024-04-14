@@ -415,7 +415,8 @@ class Node(threading.Thread):
                     self.peers.append(i)
 
             self.debug_print("Known Peers: " + str(self.peers))
-            self.ConnectToNodes()  # cpnnect to new nodes
+            
+            #self.ConnectToNodes()  # cpnnect to new nodes
             return True
 
         if type == "msg":
