@@ -203,8 +203,8 @@ class FileDownloader(threading.Thread):
     def run(self):
         
         try:
-            print(f"in downloader size: {self.data_size}")
-            print(f"filename in downloader :  {self.filename}")
+            # print(f"in downloader size: {self.data_size}")
+            # print(f"filename in downloader :  {self.filename}")
             self.conn.send(self.fhash.encode("utf-8"))
             
             """

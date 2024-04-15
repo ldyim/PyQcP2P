@@ -68,7 +68,7 @@ if __name__ == "__main__":
                         node.file_manager.downloader.finished = False
                     file = f"files/file{i}_{j}.txt"
                     hash = hashlib.md5(file.encode()).hexdigest()
-                    print(f"Requesting file {file} with hash {hash}")
+                    # print(f"Requesting file {file} with hash {hash}")
                     isComplete = (node.requestFile(hash))
                     while not node.file_manager.downloader:
                         continue
