@@ -103,13 +103,6 @@ if __name__ == "__main__":
                     file = f"files/file{i}_{j}.txt"
                     hash = hashlib.md5(file.encode()).hexdigest()
                     print(f"Requesting file {file} with hash {hash}")
-                    print(node.requestFile(hash))
+                    node.requestFile(hash)
             
             # print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
-            while True:
-                if count_large_files(directory_path) == 35:
-                    end = time.time()
-                    print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
-                    break
-                  
-            
