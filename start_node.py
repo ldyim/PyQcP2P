@@ -73,7 +73,7 @@ if __name__ == "__main__":
                     while not node.file_manager.downloader:
                         continue
                     curr = time.time()
-                    while (isComplete == None or isComplete == False) and time.time() - curr < 15:
+                    while (isComplete == None or isComplete == False):
                         isComplete = node.file_manager.downloader.finished
                         continue
                     # if time.time() - curr > 15:
