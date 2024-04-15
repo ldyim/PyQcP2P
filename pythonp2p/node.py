@@ -445,7 +445,7 @@ class Node(threading.Thread):
                 )
                 self.file_manager.downloader = downloader
                 downloader.data_size = dta["size"]
-                downloader.filename = str(dta["filename"])
+                downloader.filename = str(dta["filename"])[6:]
                 downloader.start()
                 print("started downloader")
                
