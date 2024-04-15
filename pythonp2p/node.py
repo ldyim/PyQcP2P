@@ -321,7 +321,7 @@ class Node(threading.Thread):
 
     def message(self, type, data, overides={}, ex=[]):
         # time that the message was sent
-        self.debug_print("Sending message: " + str(data) + "with type " + str(type))
+        # self.debug_print("Sending message: " + str(data) + "with type " + str(type))
         dict = {"type": type, "data": data}
         if "time" not in dict:
             dict["time"] = str(time.time())
@@ -433,16 +433,17 @@ class Node(threading.Thread):
                     data,
                     {"ip": self.private_ip, "localip": self.local_ip, "whole_hash": self.file_manager.files[data]["whole_hash"]},
                 )
-                self.debug_print(
-                    "recieved request for file: " + data + " and we have it."
-                )
-            else:
-                self.debug_print(
-                    "recieved request for file: " + data + " but we do not have it."
-                )
+                # self.debug_print(
+                #     "recieved request for file: " + data + " and we have it."
+                # )
+            #else:
+                # self.debug_print(
+                #     "recieved request for file: " + data + " but we do not have it."
+                # )
+                
         if type == "requested_file":
-            self.debug_print("node: " + dta["snid"] + " has file " + data)
-            self.debug_print("got to new code \n\n\n\n")
+            # self.debug_print("node: " + dta["snid"] + " has file " + data)
+            # self.debug_print("got to new code \n\n\n\n")
             if dta["ip"] == "":
                 if dta["localip"] != "":
                     ip = dta["localip"]
@@ -460,8 +461,8 @@ class Node(threading.Thread):
                 print(f"key error, with key {data}")
                 print(f"we have: {self.file_manager.files}")
                 return 
-            self.debug_print("File path: " + temp_file_path)
-            self.debug_print("ip: " + ip)
+            # self.debug_print("File path: " + temp_file_path)
+            # self.debug_print("ip: " + ip)
             #downloader.start()
             ################################################################
             # INSERT QUIC CLIENT BELOW
@@ -470,7 +471,7 @@ class Node(threading.Thread):
             # start quic client
             client = QuicClient(ip, temp_file_path, int(self.node_num), int(temp_file_path[-5]))
             client.start()
-            self.debug_print("Client start...")
+            # self.debug_print("Client start...")
             ################################################################
             
             
@@ -488,11 +489,11 @@ class Node(threading.Thread):
                 
             
         if type == "resp":
-            self.debug_print("node: " + dta["snid"] + " has file " + data)
+            # self.debug_print("node: " + dta["snid"] + " has file " + data)
             if data in self.requested:
                 print("node " + dta["snid"] + " has our file!")
                 whole_hash = dta["whole_hash"]
-                self.debug_print("whole hash: " + whole_hash)
+                # self.debug_print("whole hash: " + whole_hash)
                 if dta["ip"] == "":
                     if dta["localip"] != "":
                         ip = dta["localip"]

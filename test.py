@@ -1,11 +1,13 @@
 import hashlib
-
-
-def hashFile(filepath):
+def hashFileWhole(filepath):
         hasher = hashlib.md5()
-        buf = filepath.encode()
-        hasher.update(buf)
-        return hasher.hexdigest()
-
-
-print(hashFile("files/file1.txt"))
+        try:
+            with open(filepath, "rb") as afile:
+                buf = afile.read()
+                while len(buf) > 0:
+                    hasher.update(buf)
+                    buf = afile.read()
+            return hasher.hexdigest()
+        except:
+            print("Couldn't find/hash file " + filepath)
+print(hashFileWhole("transfer_directory/file1-0.txt"))

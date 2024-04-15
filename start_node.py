@@ -30,7 +30,7 @@ def count_large_files(directory):
         file_path = os.path.join(directory, filename)
         
         # Check if the file is a regular file and is at least 0.9 MB in size
-        if os.path.isfile(file_path) and os.path.getsize(file_path) >= 0.98 * 1024 * 1024:  # 0.9 MB in bytes
+        if os.path.isfile(file_path) and os.path.getsize(file_path) >= 0.9 * 1024 * 1024:  # 0.9 MB in bytes
             large_file_count += 1
     
     return large_file_count
@@ -96,6 +96,7 @@ if __name__ == "__main__":
         elif action == "B":
             number_of_nodes = int(input("Enter number of nodes: "))
             start = time.time()
+            print(f"start time: {start} \n\n\n")
             for i in range(1, number_of_nodes + 1):
                 if i == node_num:
                     continue
@@ -106,10 +107,10 @@ if __name__ == "__main__":
                     print(node.requestFile(hash))
             
             # print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
-            while True:
-                if count_large_files(directory_path) == 35:
-                    end = time.time()
-                    print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
-                    break
+            # while True:
+            #     if count_large_files(directory_path) == 35:
+            #         end = time.time()
+            #         print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
+            #         break
                   
             
