@@ -8,6 +8,7 @@ from .file_transfer import FileDownloader, fileServer, FileManager
 from . import portforwardlib
 from . import crypto_funcs as cf
 import ipaddress
+import pickle 
 
 msg_del_time = 30
 PORT = 65432
@@ -413,7 +414,7 @@ class Node(threading.Thread):
                 self.message(
                     "resp",
                     data,
-                    {"ip": self.private_ip, "localip": self.local_ip, "whole_hash": self.file_manager.files[data]["whole_hash"]},
+                    {"ip": self.private_ip, "localip": self.local_ip, "whole_hash": self.file_manager.files[data]["whole_hash"], "filename": self.file_manager.files[data]["path"], "size": self.file_manager.files[data]["size"]},
                 )
                 self.debug_print(
                     "recieved request for file: " + data + " and we have it."
@@ -443,6 +444,8 @@ class Node(threading.Thread):
                     ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
                 )
                 self.file_manager.downloader = downloader
+                downloader.size = dta["size"]
+                downloader.filename = dta["filename"]
                 downloader.start()
                 print("started downloader")
                

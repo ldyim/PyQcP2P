@@ -56,13 +56,21 @@ class FileManager(object):
                         + str(self.files[i]["path"])
                     )
                     del self.files[i]
-
+    def getSize(self, path): 
+        data = ""
+        with open(path, "rb") as f:
+                data = f.read() 
+        serialized_data = pickle.dumps(data)
+        # print(f"file size: {len(serialized_data)}" )
+        return len(serialized_data)
+        
     def addfile(self, path):
         name = os.path.basename(path)
         h = self.hashFile(path)
         whole_hash = self.hashFileWhole(path)
-        print("Hash: " + h + " Name: " + name + " Path: " + path + " Whole Hash: " + whole_hash)
-        self.files[h] = {"name": name, "path": path, "whole_hash": whole_hash}
+        size = self.getSize(path)
+        print("Hash: " + h + " Name: " + name + " Path: " + path + " Whole Hash: " + whole_hash + " size: " + size)
+        self.files[h] = {"name": name, "path": path, "whole_hash": whole_hash, "size": size}
         return str(h)
 
     def have_file(self, hash):
@@ -180,6 +188,8 @@ class FileDownloader(threading.Thread):
         self.conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.conn.settimeout(10.0)
         self.finished = False
+        self.filename = ""
+        self.data_size = ""
         print(f"Connecting to {ip}:{port}")
         try:
             self.conn.connect((ip, port))
@@ -193,6 +203,8 @@ class FileDownloader(threading.Thread):
     def run(self):
         
         try:
+            print(self.data_size)
+            print(self.filename)
             self.conn.send(self.fhash.encode("utf-8"))
             self.data_size = 0
             
