@@ -69,7 +69,7 @@ class FileManager(object):
         h = self.hashFile(path)
         whole_hash = self.hashFileWhole(path)
         size = self.getSize(path)
-        print("Hash: " + h + " Name: " + name + " Path: " + path + " Whole Hash: " + whole_hash + " size: " + size)
+        print("Hash: " + h + " Name: " + name + " Path: " + path + " Whole Hash: " + whole_hash + " size: " + str(size))
         self.files[h] = {"name": name, "path": path, "whole_hash": whole_hash, "size": size}
         return str(h)
 
@@ -105,11 +105,11 @@ class fileClientThread(threading.Thread):
             with open(filep, "rb") as f:
                 data = f.read()
             serialized_data = pickle.dumps(data)
-            self.sock.sendall(struct.pack(">I", len(serialized_data)))
-            time.sleep(0.3)
-            print("File: " + file)
-            self.sock.send(file.encode("utf-8"))
-            time.sleep(0.3)
+            #self.sock.sendall(struct.pack(">I", len(serialized_data)))
+            #time.sleep(0.3)
+            #print("File: " + file)
+            #self.sock.send(file.encode("utf-8"))
+            #time.sleep(0.3)
             self.sock.sendall(serialized_data)
 
     def stop(self):
@@ -203,13 +203,13 @@ class FileDownloader(threading.Thread):
     def run(self):
         
         try:
-            print(self.data_size)
-            print(self.filename)
+            print(f"in downloader size: {self.data_size}")
+            print(f"filename in downloader :  {self.filename}")
             self.conn.send(self.fhash.encode("utf-8"))
+            
+            """
             self.data_size = 0
-            
             self.data_size = struct.unpack(">I", self.conn.recv(9))[0]
-            
             time.sleep(0.1)
             print("file size: " + str(self.data_size))
             self.filename = ""
@@ -227,6 +227,7 @@ class FileDownloader(threading.Thread):
                     self.stop()
                     return
             time.sleep(0.1)
+            """ 
             received_payload = b""
             reamining_payload_size = self.data_size
             while reamining_payload_size != 0 and not self.terminate_flag.is_set():

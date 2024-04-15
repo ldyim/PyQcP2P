@@ -444,8 +444,8 @@ class Node(threading.Thread):
                     ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
                 )
                 self.file_manager.downloader = downloader
-                downloader.size = dta["size"]
-                downloader.filename = dta["filename"]
+                downloader.data_size = dta["size"]
+                downloader.filename = str(dta["filename"])
                 downloader.start()
                 print("started downloader")
                
