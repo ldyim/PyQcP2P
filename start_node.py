@@ -76,10 +76,10 @@ if __name__ == "__main__":
                     while (isComplete == None or isComplete == False) and time.time() - curr < 15:
                         isComplete = node.file_manager.downloader.finished
                         continue
-                    if time.time() - curr > 15:
-                        print("timeout occurred" + "retry file: " + file + " \n\n\n") 
-                        j -= 1
-                        node.file_manager.downloader.stop()
+                    # if time.time() - curr > 15:
+                    #     print("timeout occurred" + "retry file: " + file + " \n\n\n") 
+                    #     j -= 1
+                    #     node.file_manager.downloader.stop()
                     j += 1
 
             end = time.time()
