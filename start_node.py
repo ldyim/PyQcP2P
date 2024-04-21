@@ -58,6 +58,7 @@ if __name__ == "__main__":
         elif action == "B":
             number_of_nodes = int(input("Enter number of nodes: "))
             start = time.time()
+            print(f"start time: {start}")
             for i in range(1, number_of_nodes + 1):
                 if i == int(node_num):
                     continue

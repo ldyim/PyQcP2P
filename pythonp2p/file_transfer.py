@@ -224,6 +224,7 @@ class FileDownloader(threading.Thread):
             #    print("Recieved corrupt file, deleting....")
             self.finished = True
             print("File Downlod Finished")
+            print(f"{time.time()}")
             # self.file_manager.addfile(self.dirnamme + self.filename)
                        
 
