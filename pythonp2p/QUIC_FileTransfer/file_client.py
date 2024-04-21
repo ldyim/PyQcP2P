@@ -79,17 +79,20 @@ class QuicClient:
         ) as protocol:
             try: 
                 print(f'Connect to QUIC Server with stream id: {self.stream_id}')
+                chunk_size = 32768  # 32KB per chunk
                 with open(self.file_path, 'rb') as file:
-                    data = file.read()
-
+                    while True:
+                        data = file.read(chunk_size)
+                        if not data:
+                            break
+                        protocol._quic.send_stream_data(self.stream_id, data)
+                        protocol.transmit()
                 
-                protocol._quic.send_stream_data(int(self.stream_id), data)
-                protocol._quic.send_stream_data(int(self.stream_id), b'\r\n')
-                
-                #protocol._quic.send_stream_data(0, data)
-                #protocol._quic.send_stream_data(0, b'\r\n')
+                # Mark the end of the stream
+                protocol._quic.send_stream_data(self.stream_id, b'\r\n')
                 protocol.transmit()
-                await protocol.ready_event.wait() 
+                
+                await protocol.ready_event.wait()
             except:
                 print(f"error with stream id: {self.stream_id}")
     
