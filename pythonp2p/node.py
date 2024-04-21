@@ -434,9 +434,9 @@ class Node(threading.Thread):
                         ip = dta["localip"]
                 else:
                     ip = dta["ip"]
-                temp_port = random.randint(10000, 11000)
+                #temp_port = random.randint(10000, 11000)
                 downloader = FileDownloader(
-                    ip, temp_port, str(data), self.fileServer.dirname, self.file_manager
+                    ip, FILE_PORT, str(data), self.fileServer.dirname, self.file_manager
                 )
                 self.file_manager.downloader = downloader
                 downloader.start()
