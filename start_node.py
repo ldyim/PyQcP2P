@@ -62,18 +62,18 @@ if __name__ == "__main__":
                     continue
                 for j in range(5):
                     
-                    isComplete = None
+                    #isComplete = None
                     if node.file_manager.downloader:
                         node.file_manager.downloader.finished = False
                     file = f"files/file{i}_{j}.txt"
                     hash = hashlib.md5(file.encode()).hexdigest()
                     print(f"Requesting file {file} with hash {hash}")
                     isComplete = (node.requestFile(hash))
-                    while not node.file_manager.downloader:
-                        continue
-                    while isComplete == None or isComplete == False:
-                        isComplete = node.file_manager.downloader.finished
-                        continue
+                    # while not node.file_manager.downloader:
+                    #     continue
+                    # while isComplete == None or isComplete == False:
+                    #     isComplete = node.file_manager.downloader.finished
+                    #     continue
             end = time.time()
             print(f"Time taken to download 5 files from each of {number_of_nodes} nodes: {end - start} seconds")
                 
