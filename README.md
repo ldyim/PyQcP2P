@@ -1,6 +1,7 @@
 # PyQcP2P
 Make sure you install python3 and pip install pycryptodome before anything else
 You might need to run the following commands
+The main branch is TCP and the QUIC Branch is quic_transfer. The updated TCP branch with concurrent file transfers is tcp_concurrent
 
 ```shell
 sudo apt upgrade && sudo apt update
@@ -9,14 +10,16 @@ git clone https://github.com/ldyim/PyQcP2P.git
 pip3 install pycryptodome
 cd PyQcP2P
 ```
-Add your port and IP address to the doc
+
 
 
 How to test the existing file transfer function
 ```shell
+python3 reset_directories.py
+# enter your node # and your desired file sizes
 python3 start_node.py # run this in two nodes
+# follow the prompts to connect the other nodes
 # choose the number and input the ip address you want to connect
-# choose add files in node 1 and input the file path
 # choose get files in node 2 and input the hash code.
 ```
 
